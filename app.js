@@ -22,8 +22,8 @@ require([
   };
 
   var cupModels = {
-    cone: {primitive: "cone"},
-    gltfcup: {href: "./low-poly_plastic_cup/scene.gltf"}
+    cone: { primitive: "cone" },
+    gltfcup: { href: "./low-poly_plastic_cup/scene.gltf" }
   }
 
   var gltfcupCredit = document.createElement("div");
@@ -38,7 +38,7 @@ require([
       height: 1000000,
       resource: cupModels.gltfcup,
       anchor: "relative",
-      anchorPosition: {x: 0, y: 0, z: -0.49}
+      anchorPosition: { x: 0, y: 0, z: -0.49 }
     }]
   };
 
@@ -61,7 +61,7 @@ require([
       height: 900000,
       resource: cupModels.gltfcup,
       anchor: "relative",
-      anchorPosition: {x: 0, y: 0, z: -0.5},
+      anchorPosition: { x: 0, y: 0, z: -0.5 },
       material: {
         color: [0, 0, 0, 0.01] //not hittestable if 0 opacity
       },
@@ -70,8 +70,8 @@ require([
   };
 
   function createGraphic(xpos, symbol, attributes, color) {
-    if(color) {
-      symbol.symbolLayers[0].material = {color: color};
+    if (color) {
+      symbol.symbolLayers[0].material = { color: color };
     }
     var pointGraphic = new Graphic({
       geometry: pointAtZero,
@@ -105,13 +105,13 @@ require([
     return dfd;
   }
 
-  
+
   class Cup {
     constructor(xpos, id, withBall, color) {
       this.graphics = [];
-      this.graphics.push(createGraphic(xpos, cupSymbol, {cup:id}, color));
+      this.graphics.push(createGraphic(xpos, cupSymbol, { cup: id }, color));
       if (withBall) {
-        this.graphics.push(createGraphic(xpos, ballSymbol, {ball:1}));
+        this.graphics.push(createGraphic(xpos, ballSymbol, { ball: 1 }));
       }
     }
     move(xDelta, yDelta) {
@@ -125,7 +125,7 @@ require([
     }
     lift(zDelta, rotDelta) {
       for (var g of this.graphics) {
-          if(g.attributes.cup !== undefined) {
+        if (g.attributes.cup !== undefined) {
           var sl = g.symbol.symbolLayers.getItemAt(0);
           sl.tilt += rotDelta;
           sl.anchorPosition.z += zDelta;
@@ -141,7 +141,7 @@ require([
       var hud = document.getElementById("hud");
       hud.classList.add("show");
       this.hud = hud;
-      
+
       this.result = document.createElement("div");
       this.result.classList.add("result");
       hud.appendChild(this.result);
@@ -159,15 +159,15 @@ require([
       maxLevel.innerText = "🏰";
       maxLevel.classList.add("maxlevel");
       this.level.appendChild(maxLevel);
-      
+
       const bar = document.createElement("div");
       bar.classList.add("bar");
       this.level.appendChild(bar);
-      
+
       this.currentLevel = document.createElement("div");
       this.currentLevel.classList.add("currentlevel");
       bar.appendChild(this.currentLevel);
-      
+
       this.playButton = document.createElement("button");
       this.playButton.innerText = "Play";
       this.playButton.classList.add("play", "show");
@@ -202,15 +202,15 @@ require([
       this.result.textContent = "👸 Congrats! You rescued the princess."
       this.playButton.classList.remove("show");
       this.level.classList.remove("show");
-      
+
     }
 
-    lose () {
+    lose() {
       this.result.textContent = "🙁 You lose!";
       this.result.classList.remove("win");
       this.result.classList.add("show");
       this.hud.classList.add("show");
-      
+
     }
 
     playAgain() {
@@ -220,7 +220,7 @@ require([
     }
 
     setLevel(level) {
-      this.currentLevel.style.left = (level-1)*10 + "%"; //button is 10% wide
+      this.currentLevel.style.left = (level - 1) * 10 + "%"; //button is 10% wide
     }
 
   }
@@ -248,13 +248,13 @@ require([
       });
 
       map.ground.surfaceColor = "#00ff6";
-      
+
       this.view = new SceneView({
         container: "viewDiv",
         qualityProfile: "high",
         map: map
       });
-      this.view.camera = {"position":{"spatialReference":{"wkid":4326},"x":6.974954223251486,"y":-38.17635387195816,"z":6884030.4981924575},"heading":2.6162381077601076,"tilt":22.82456313618229};
+      this.view.camera = { "position": { "spatialReference": { "wkid": 4326 }, "x": 6.974954223251486, "y": -38.17635387195816, "z": 6884030.4981924575 }, "heading": 2.6162381077601076, "tilt": 22.82456313618229 };
       this.view.environment.lighting.date = new Date(2018, 10, 24, 5, 33, 30, 0);
       this.view.environment.lighting.directShadowsEnabled = true;
       this.view.environment.lighting.ambientOcclusionEnabled = true;
@@ -272,11 +272,11 @@ require([
       });
       this.view.ui.add(homeWidget, "top-left");
       this.view.ui.add(gltfcupCredit, "manual");
-      
-      
+
+
       var graphicsLayer = new GraphicsLayer();
       this.graphicsLayer = graphicsLayer;
-      
+
       map.add(graphicsLayer);
       this.secret;
 
@@ -307,7 +307,7 @@ require([
       // level = Math.min(10, Math.max(1, level));
       level = 12;
       this.level = level;
-      this.loopsteps = Math.round(72/level/2)*2; //ensure 
+      this.loopsteps = Math.round(72 / level / 2) * 2; //ensure 
       this.shuffleCnt = level;
       this.hud.setLevel(level);
       //console.log("level " + this.level, "shuffle " +this.shuffleCnt, "loopsteps " + this.loopsteps );
@@ -316,41 +316,41 @@ require([
     play() {
       this.hud.hide();
       this.liftAll(this.secret, this.firstLift ? undefined : "down")
-      .then(this.shuffle.bind(this))
-      .then(this.enableClick.bind(this));
+        .then(this.shuffle.bind(this))
+        .then(this.enableClick.bind(this));
     }
 
     evalHits(response) {
-      if(response.results.length === 0) {
+      if (response.results.length === 0) {
         //no cup clicked, give user another chance
-        return; 
+        return;
       }
       this.disableClick();
       var result = this._evalHits(response.results);
       this.liftAll(result.cupId, "up")
-      .then(function(){
-        if(result.hit) {
-          this.hud.win();
-          if(this.level === 10) {
-            this.hud.princess();
+        .then(function () {
+          if (result.hit) {
+            this.hud.win();
+            if (this.level === 10) {
+              this.hud.princess();
+            }
+            this.setLevel(this.level + 1);
           }
-          this.setLevel(this.level + 1);
-        } 
-        else {
-          this.hud.lose();
-          this.setLevel(this.level - 1);
-        }
-        this.hud.playAgain();
-      }.bind(this));
-      
+          else {
+            this.hud.lose();
+            this.setLevel(this.level - 1);
+          }
+          this.hud.playAgain();
+        }.bind(this));
+
     }
 
     enableClick() {
       this.clickHandler = this.view.on("click", this._handleClick.bind(this));
-      
+
     }
     disableClick() {
-      if(this.clickHandler){
+      if (this.clickHandler) {
         this.clickHandler.remove();
       }
     }
@@ -393,22 +393,22 @@ require([
       });
       var done = loop(0, function (step) {
         for (var i = 0; i < this.cups.length; i++) {
-          this.cupsPos[i].move(this.cupMoveDistance * 25 / this.loopsteps * movePattern[i], Math.sin(step / this.loopsteps * Math.PI * 2) * this.cupMoveDistance * 40/this.loopsteps * movePattern[i] * movePattern[3]);
+          this.cupsPos[i].move(this.cupMoveDistance * 25 / this.loopsteps * movePattern[i], Math.sin(step / this.loopsteps * Math.PI * 2) * this.cupMoveDistance * 40 / this.loopsteps * movePattern[i] * movePattern[3]);
         }
       }.bind(this), this.loopsteps)
       return done;
     };
 
     liftAll(firstCup, upOrDown) {
-      if(!upOrDown) {
+      if (!upOrDown) {
         this.firstLift = false;
       }
-      var order = firstCup === 1 ? [1,0,2] : ( firstCup === 2 ? [2,0,1]  : [0, 1, 2]);
+      var order = firstCup === 1 ? [1, 0, 2] : (firstCup === 2 ? [2, 0, 1] : [0, 1, 2]);
       var done = new Deferred();
       this.liftOne(order[0], upOrDown);
       setTimeout(this.liftOne.bind(this, order[1], upOrDown), 100);
-      setTimeout(function(done){
-        this.liftOne(order[2], upOrDown).then(function(){done.resolve()})
+      setTimeout(function (done) {
+        this.liftOne(order[2], upOrDown).then(function () { done.resolve() })
       }.bind(this, done), 200);
       return done;
     }
@@ -420,23 +420,23 @@ require([
       var loopsteps = this.loopsteps * stepsFactor;
 
       var done = loop(0, function (step) {
-        this.cups[cupId].lift(Math.sin(step / loopsteps * Math.PI * 2) * -3/loopsteps * factor, Math.sin(step / loopsteps * Math.PI * 2) * -200/loopsteps * factor);
+        this.cups[cupId].lift(Math.sin(step / loopsteps * Math.PI * 2) * -3 / loopsteps * factor, Math.sin(step / loopsteps * Math.PI * 2) * -200 / loopsteps * factor);
       }.bind(this), this.loopsteps);
       return done;
     }
 
     _evalHits(hits) {
-      if(hits.length === 0) {
-        return {cupId: this.secret, hit: false}
+      if (hits.length === 0) {
+        return { cupId: this.secret, hit: false }
       }
       else {
         var hitCupId = hits[0].graphic.attributes.cup;
-        if(hits.length > 1 && hits[1].graphic && hits[1].graphic.attributes.ball) {
+        if (hits.length > 1 && hits[1].graphic && hits[1].graphic.attributes.ball) {
           // if second hit in ray is cup, we have a hit
-          return {cupId: hitCupId, hit: true};
+          return { cupId: hitCupId, hit: true };
         }
         else {
-          return {cupId: hitCupId, hit: false};
+          return { cupId: hitCupId, hit: false };
         }
       }
     }
