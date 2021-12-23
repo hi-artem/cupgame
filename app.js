@@ -247,7 +247,7 @@ require([
         basemap: "none"
       });
 
-      map.ground.surfaceColor = "#e3eff6";
+      map.ground.surfaceColor = "#00ff6";
       
       this.view = new SceneView({
         container: "viewDiv",
@@ -255,10 +255,15 @@ require([
         map: map
       });
       this.view.camera = {"position":{"spatialReference":{"wkid":4326},"x":6.974954223251486,"y":-38.17635387195816,"z":6884030.4981924575},"heading":2.6162381077601076,"tilt":22.82456313618229};
-      this.view.environment.lighting.date = new Date(2018, 12, 24, 11, 33, 30, 0);
+      this.view.environment.lighting.date = new Date(2018, 10, 24, 5, 33, 30, 0);
       this.view.environment.lighting.directShadowsEnabled = true;
       this.view.environment.lighting.ambientOcclusionEnabled = true;
       this.view.environment.lighting.cameraTrackingEnabled = false;
+      this.view.environment.background = {
+        type: "color", // autocasts as new ColorBackground()
+        color: [13, 252, 244, 1]
+      }
+      this.view.environment.atmosphereEnabled = false
 
       this.view.ui.components = [];
 
@@ -293,13 +298,14 @@ require([
       this.firstLift = true;
 
       //reset level
-      this.setLevel(3);  // 1 - 10;
+      this.setLevel(12);  // 1 - 10;
       this.hud.reset();
       this.init();
     }
 
     setLevel(level) {
-      level = Math.min(10, Math.max(1, level));
+      // level = Math.min(10, Math.max(1, level));
+      level = 12;
       this.level = level;
       this.loopsteps = Math.round(72/level/2)*2; //ensure 
       this.shuffleCnt = level;
